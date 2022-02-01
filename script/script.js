@@ -32,9 +32,9 @@ const setSuccess = (node) => {
 
 // ------------------------------------- Validation functions --------------------------------------
 
-const checkUsername = (user) => {
-  return user === "" ? false : true;
-};
+// const checkUsername = (user) => {
+//   return user === "" && user.length < 2  ? false : true;
+// };
 const checkPassword = (pw) => {
   const regex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   return regex.test(pw);
@@ -71,9 +71,16 @@ const validate = () => {
     mainPasswordFlag = false,
     confirmPasswordFlag = false;
 
-  !checkUsername(name)
-    ? setError(username, "Name field cannot be empty.")
-    : (setSuccess(username), (nameFlag = true));
+  if (name === "") {
+    setError(username, "Name field cannot be empty.");
+  } else if (name.length < 2 || name.length > 120) {
+    setError(
+      username,
+      "Name must have atleast 2 characters and less than 120 characters"
+    );
+  } else {
+    setSuccess(username), (nameFlag = true);
+  }
 
   !emailCheck(emailValidate)
     ? setError(email, "Kindly enter valid email address")
